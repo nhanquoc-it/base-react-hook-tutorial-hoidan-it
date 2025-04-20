@@ -2,13 +2,16 @@ import React, { useEffect, useState } from "react";
 import Table from "react-bootstrap/Table";
 import { fetchAllUser } from "../services/userService";
 import ReactPaginate from "react-paginate";
+import ModalAddNew from "./ModalAddNew";
 
 const TableUser = (props) => {
+	// State list users
 	const [listUsers, setListUsers] = useState([]);
-
 	// State total page & user
 	const [totalUser, setTotalUser] = useState(0);
 	const [totalPage, setTotalPage] = useState(0);
+	// State show modal add new user
+	const [modalOpen, setModalOpen] = useState(false);
 
 	useEffect(() => {
 		getUsers(1);
@@ -37,8 +40,27 @@ const TableUser = (props) => {
 		// console.log(">>> check page: ", +event.selected + 1);
 	};
 
+	// Open Modal
+	const openModal = () => {
+		setModalOpen(true);
+	};
+
+	// Close modal
+	const closeModal = () => {
+		setModalOpen(false);
+	};
+
 	return (
 		<>
+			<div className="my-3 d-flex justify-content-between">
+				<span>
+					<strong>List Users:</strong>
+				</span>
+				<button onClick={openModal} className="btn btn-success">
+					Add New User
+				</button>
+			</div>
+
 			<Table striped bordered hover>
 				<thead>
 					<tr>
@@ -65,7 +87,6 @@ const TableUser = (props) => {
 			</Table>
 
 			{/* Paginate */}
-
 			<ReactPaginate
 				nextLabel="next >"
 				onPageChange={handlePageClick}
@@ -85,6 +106,9 @@ const TableUser = (props) => {
 				breakLinkClassName={"page-link"}
 				activeClassName={"active"}
 			/>
+
+			{/* Modal Dialog */}
+			<ModalAddNew show={modalOpen} handleClose={closeModal} />
 		</>
 	);
 };
