@@ -30,3 +30,4 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 - React Bootstrap : [https://react-bootstrap.netlify.app/docs/getting-started/introduction]
 - Link install packages : [https://www.npmjs.com/package/package]
+- Link Fake API : [https://reqres.in/]
