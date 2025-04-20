@@ -23,8 +23,9 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 2. bootstrap 5
 3. sass
 4. axios
+5. react-paginate
 
-- Command Install : `npm install --save-exact react-bootstrap@2.2.2 bootstrap@5.1.3 sass@1.49.10 axios@0.26.1`
+- Command Install : `npm install --save-exact react-bootstrap@2.2.2 bootstrap@5.1.3 sass@1.49.10 axios@0.26.1 react-paginate@8.1.2`
 
 # Link Resources :
 
