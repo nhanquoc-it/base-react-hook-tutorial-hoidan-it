@@ -22,7 +22,6 @@ const TableUser = (props) => {
 		// console.log(">>> check res: ", res);
 		if (res && res.data) {
 			setListUsers(res.data);
-
 			setTotalUser(res.total);
 			setTotalPage(res.total_pages);
 			// console.log(">>> check totalUser: ", res.total);
@@ -48,6 +47,11 @@ const TableUser = (props) => {
 	// Close modal
 	const closeModal = () => {
 		setModalOpen(false);
+	};
+
+	// Create new user
+	const handleCreateNewUser = (user) => {
+		setListUsers([user, ...listUsers]);
 	};
 
 	return (
@@ -108,7 +112,11 @@ const TableUser = (props) => {
 			/>
 
 			{/* Modal Dialog */}
-			<ModalAddNew show={modalOpen} handleClose={closeModal} />
+			<ModalAddNew
+				show={modalOpen}
+				handleClose={closeModal}
+				handleCreateNewUser={handleCreateNewUser}
+			/>
 		</>
 	);
 };
