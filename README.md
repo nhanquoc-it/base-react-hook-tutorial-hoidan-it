@@ -16,3 +16,17 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
   $ npm install
   $ npm start
 ```
+
+# Install packages necessary :
+
+1. react-bootstrap
+2. bootstrap 5
+3. sass
+4. axios
+
+- Command Install : `npm install --save-exact react-bootstrap@2.2.2 bootstrap@5.1.3 sass@1.49.10 axios@0.26.1`
+
+# Link Resources :
+
+- React Bootstrap : [https://react-bootstrap.netlify.app/docs/getting-started/introduction]
+- Link install packages : [https://www.npmjs.com/package/package]
