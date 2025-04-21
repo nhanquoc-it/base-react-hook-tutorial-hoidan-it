@@ -5,6 +5,8 @@ import ReactPaginate from "react-paginate";
 import ModalAddNew from "./ModalAddNew";
 import ModalEdit from "./ModalEdit";
 
+import _ from "lodash";
+
 const TableUser = (props) => {
 	// State list users
 	const [listUsers, setListUsers] = useState([]);
@@ -63,6 +65,18 @@ const TableUser = (props) => {
 		console.log(">>> check user: ", user);
 		setDataUserEdit(user);
 		setModalEdit(true);
+	};
+
+	// Update user from modal edit
+	const handleEditUserFromModal = (user) => {
+		let listUsersClone = _.cloneDeep(listUsers); // Clone array
+		let index = listUsers.findIndex((item) => item.id === user.id); // Find index of user in listUsers
+		listUsersClone[index].first_name = user.first_name; // Update name of user in listUsersClone
+		setListUsers(listUsersClone); // Update state listUsers
+
+		console.log(">>> check user from modal: ", user);
+		console.log(listUsers, listUsersClone);
+		console.log(">>> check index: ", index);
 	};
 
 	return (
@@ -142,6 +156,7 @@ const TableUser = (props) => {
 				show={modalEdit}
 				dataUserEdit={dataUserEdit}
 				handleClose={closeModal}
+				handleEditUserFromModal={handleEditUserFromModal}
 			/>
 		</>
 	);
