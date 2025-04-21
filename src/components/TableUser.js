@@ -85,10 +85,19 @@ const TableUser = (props) => {
 		console.log(">>> check index: ", index);
 	};
 
+	// Delete user
 	const handleDeleteUser = (user) => {
 		console.log(">>> check user: ", user);
 		setDataUserDelete(user); // Set data user delete
 		setModalDelete(true); // Open modal delete
+	};
+
+	// Delete user from modal delete
+	const handleDeleteUserFromModal = (user) => {
+		let listUsersClone = _.cloneDeep(listUsers); // Clone array
+		listUsersClone = listUsersClone.filter((item) => item.id !== user.id);
+		setListUsers(listUsersClone); // Update state listUsers
+		console.log(">>> check user from modal delete: ", user);
 	};
 
 	return (
@@ -178,6 +187,7 @@ const TableUser = (props) => {
 				show={modalDelete}
 				handleClose={closeModal}
 				dataUserDelete={dataUserDelete}
+				handleDeleteUserFromModal={handleDeleteUserFromModal}
 			/>
 		</>
 	);
