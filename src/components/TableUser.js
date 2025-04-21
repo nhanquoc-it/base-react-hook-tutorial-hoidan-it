@@ -3,6 +3,7 @@ import Table from "react-bootstrap/Table";
 import { fetchAllUser } from "../services/userService";
 import ReactPaginate from "react-paginate";
 import ModalAddNew from "./ModalAddNew";
+import ModalEdit from "./ModalEdit";
 
 const TableUser = (props) => {
 	// State list users
@@ -12,6 +13,8 @@ const TableUser = (props) => {
 	const [totalPage, setTotalPage] = useState(0);
 	// State show modal add new user
 	const [modalOpen, setModalOpen] = useState(false);
+	const [modalEdit, setModalEdit] = useState(false);
+	const [dataUserEdit, setDataUserEdit] = useState({});
 
 	useEffect(() => {
 		getUsers(1);
@@ -47,11 +50,19 @@ const TableUser = (props) => {
 	// Close modal
 	const closeModal = () => {
 		setModalOpen(false);
+		setModalEdit(false);
 	};
 
 	// Create new user
 	const handleCreateNewUser = (user) => {
 		setListUsers([user, ...listUsers]);
+	};
+
+	// Edit user
+	const handleEditUser = (user) => {
+		console.log(">>> check user: ", user);
+		setDataUserEdit(user);
+		setModalEdit(true);
 	};
 
 	return (
@@ -84,6 +95,15 @@ const TableUser = (props) => {
 									<td>{item.email}</td>
 									<td>{item.first_name}</td>
 									<td>{item.last_name}</td>
+									<td>
+										<button
+											className="btn btn-warning mx-3"
+											onClick={() => handleEditUser(item)}
+										>
+											Edit
+										</button>
+										<button className="btn btn-danger">Delete</button>
+									</td>
 								</tr>
 							);
 						})}
@@ -116,6 +136,12 @@ const TableUser = (props) => {
 				show={modalOpen}
 				handleClose={closeModal}
 				handleCreateNewUser={handleCreateNewUser}
+			/>
+
+			<ModalEdit
+				show={modalEdit}
+				dataUserEdit={dataUserEdit}
+				handleClose={closeModal}
 			/>
 		</>
 	);
