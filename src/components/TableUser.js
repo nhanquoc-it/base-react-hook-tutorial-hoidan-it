@@ -6,6 +6,7 @@ import ModalAddNew from "./ModalAddNew";
 import ModalEdit from "./ModalEdit";
 
 import _ from "lodash";
+import ModalDelete from "./ModalDelete";
 
 const TableUser = (props) => {
 	// State list users
@@ -15,8 +16,12 @@ const TableUser = (props) => {
 	const [totalPage, setTotalPage] = useState(0);
 	// State show modal add new user
 	const [modalOpen, setModalOpen] = useState(false);
+	// State show modal edit
 	const [modalEdit, setModalEdit] = useState(false);
 	const [dataUserEdit, setDataUserEdit] = useState({});
+	// State show modal delete
+	const [modalDelete, setModalDelete] = useState(false);
+	const [dataUserDelete, setDataUserDelete] = useState({});
 
 	useEffect(() => {
 		getUsers(1);
@@ -53,6 +58,7 @@ const TableUser = (props) => {
 	const closeModal = () => {
 		setModalOpen(false);
 		setModalEdit(false);
+		setModalDelete(false);
 	};
 
 	// Create new user
@@ -77,6 +83,12 @@ const TableUser = (props) => {
 		console.log(">>> check user from modal: ", user);
 		console.log(listUsers, listUsersClone);
 		console.log(">>> check index: ", index);
+	};
+
+	const handleDeleteUser = (user) => {
+		console.log(">>> check user: ", user);
+		setDataUserDelete(user); // Set data user delete
+		setModalDelete(true); // Open modal delete
 	};
 
 	return (
@@ -116,7 +128,12 @@ const TableUser = (props) => {
 										>
 											Edit
 										</button>
-										<button className="btn btn-danger">Delete</button>
+										<button
+											onClick={() => handleDeleteUser(item)}
+											className="btn btn-danger"
+										>
+											Delete
+										</button>
 									</td>
 								</tr>
 							);
@@ -151,12 +168,16 @@ const TableUser = (props) => {
 				handleClose={closeModal}
 				handleCreateNewUser={handleCreateNewUser}
 			/>
-
 			<ModalEdit
 				show={modalEdit}
 				dataUserEdit={dataUserEdit}
 				handleClose={closeModal}
 				handleEditUserFromModal={handleEditUserFromModal}
+			/>
+			<ModalDelete
+				show={modalDelete}
+				handleClose={closeModal}
+				dataUserDelete={dataUserDelete}
 			/>
 		</>
 	);
