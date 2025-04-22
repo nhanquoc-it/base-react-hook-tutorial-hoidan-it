@@ -26,9 +26,10 @@ const TableUser = (props) => {
 	// State sort by
 	const [sortBy, setSortBy] = useState("asc");
 	const [sortField, setSortField] = useState("id");
-
 	//Search user by email
 	const [keyword, setKeyword] = useState("");
+	// State data export
+	const [dataExport, setDataExport] = useState([]);
 
 	useEffect(() => {
 		getUsers(1);
@@ -138,13 +139,25 @@ const TableUser = (props) => {
 		}
 	};
 
-	// Data export file CSV
-	const csvData = [
-		["firstname", "lastname", "email"],
-		["Ahmed", "Tomi", "ah@smthing.co.com"],
-		["Raed", "Labes", "rl@smthing.co.com"],
-		["Yezzi", "Min l3b", "ymin@cocococo.com"],
-	];
+	// Export data to CSV
+	const getUserExport = (event, done) => {
+		let result = [];
+		if (listUsers && listUsers.length > 0) {
+			// Create header
+			result.push(["ID", "Email", "First Name", "Last Name"]);
+			// Create body
+			listUsers.map((item, index) => {
+				let arr = [];
+				arr[0] = item.id;
+				arr[1] = item.email;
+				arr[2] = item.first_name;
+				arr[3] = item.last_name;
+				result.push(arr);
+			});
+			setDataExport(result); // Set data export
+			done(); // Call done to finish export
+		}
+	};
 
 	return (
 		<>
@@ -162,7 +175,9 @@ const TableUser = (props) => {
 					<CSVLink
 						filename="user.csv"
 						className="btn btn-primary mx-3"
-						data={csvData}
+						data={dataExport}
+						asyncOnClick={true}
+						onClick={getUserExport}
 					>
 						<i className="fa-solid fa-file-arrow-down"></i>
 						Export
