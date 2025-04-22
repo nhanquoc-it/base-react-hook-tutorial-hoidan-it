@@ -25,11 +25,13 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 4. axios
 5. react-paginate
 6. react-toastify
-7. lodash 
-8. react-table (*)
+7. lodash
+8. react-table (\*)
 9. fontawesome-free
+10. react-csv (import csv)
+11. papaparse (export csv)
 
-- Command Install : `npm install --save-exact react-bootstrap@2.2.2 bootstrap@5.1.3 sass@1.49.10 axios@0.26.1 react-paginate@8.1.2 react-toastify@8.2.0 lodash@4.17.21 @fortawesome/fontawesome-free@6.1.1`
+- Command Install : `npm install --save-exact react-bootstrap@2.2.2 bootstrap@5.1.3 sass@1.49.10 axios@0.26.1 react-paginate@8.1.2 react-toastify@8.2.0 lodash@4.17.21 @fortawesome/fontawesome-free@6.1.1 react-csv@2.2.2 papaparse@5.3.2`
 
 # Link Resources :
 

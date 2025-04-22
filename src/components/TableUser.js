@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { CSVLink } from "react-csv";
 import Table from "react-bootstrap/Table";
 import { fetchAllUser } from "../services/userService";
 import ReactPaginate from "react-paginate";
@@ -135,7 +136,15 @@ const TableUser = (props) => {
 		} else {
 			getUsers(1);
 		}
-};
+	};
+
+	// Data export file CSV
+	const csvData = [
+		["firstname", "lastname", "email"],
+		["Ahmed", "Tomi", "ah@smthing.co.com"],
+		["Raed", "Labes", "rl@smthing.co.com"],
+		["Yezzi", "Min l3b", "ymin@cocococo.com"],
+	];
 
 	return (
 		<>
@@ -143,9 +152,26 @@ const TableUser = (props) => {
 				<span>
 					<strong>List Users:</strong>
 				</span>
-				<button onClick={openModal} className="btn btn-success">
-					Add New User
-				</button>
+				<div>
+					<label className="btn btn-warning" htmlFor="import">
+						<i className="fa-solid fa-file-import"></i>
+						Import
+					</label>
+					<input type="file" id="import" className="mx-3" hidden />
+
+					<CSVLink
+						filename="user.csv"
+						className="btn btn-primary mx-3"
+						data={csvData}
+					>
+						<i className="fa-solid fa-file-arrow-down"></i>
+						Export
+					</CSVLink>
+					<button onClick={openModal} className="btn btn-success">
+						<i className="fa-solid fa-circle-plus"></i>
+						Add New User
+					</button>
+				</div>
 			</div>
 
 			<div className="col-6 my-3">
