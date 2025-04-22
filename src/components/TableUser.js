@@ -26,6 +26,9 @@ const TableUser = (props) => {
 	const [sortBy, setSortBy] = useState("asc");
 	const [sortField, setSortField] = useState("id");
 
+	//Search user by email
+	const [keyword, setKeyword] = useState("");
+
 	useEffect(() => {
 		getUsers(1);
 	}, []);
@@ -117,6 +120,23 @@ const TableUser = (props) => {
 	// Check sort
 	console.log(">>> check sort: ", sortBy, sortField);
 
+	// Handle search user by email
+	const handleSearch = (event) => {
+		console.log(">>> check event: ", event.target.value);
+		setKeyword(event.target.value); // Set keyword
+		let term = event.target.value;
+		if (term) {
+			console.log(">>> run search term....");
+			let listUsersClone = _.cloneDeep(listUsers); // Clone array
+			listUsersClone = listUsersClone.filter((item) =>
+				item.email.includes(term)
+			); // Filter array
+			setListUsers(listUsersClone); // Update state listUsers
+		} else {
+			getUsers(1);
+		}
+};
+
 	return (
 		<>
 			<div className="my-3 d-flex justify-content-between">
@@ -126,6 +146,16 @@ const TableUser = (props) => {
 				<button onClick={openModal} className="btn btn-success">
 					Add New User
 				</button>
+			</div>
+
+			<div className="col-6 my-3">
+				<input
+					className="form-control"
+					placeholder="Search user by email....."
+					type="text"
+					value={keyword}
+					onChange={(event) => handleSearch(event)}
+				/>
 			</div>
 
 			<Table striped bordered hover>
