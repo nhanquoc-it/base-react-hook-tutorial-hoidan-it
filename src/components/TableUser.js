@@ -22,6 +22,9 @@ const TableUser = (props) => {
 	// State show modal delete
 	const [modalDelete, setModalDelete] = useState(false);
 	const [dataUserDelete, setDataUserDelete] = useState({});
+	// State sort by
+	const [sortBy, setSortBy] = useState("asc");
+	const [sortField, setSortField] = useState("id");
 
 	useEffect(() => {
 		getUsers(1);
@@ -100,6 +103,20 @@ const TableUser = (props) => {
 		console.log(">>> check user from modal delete: ", user);
 	};
 
+	// Handle sort
+	const handleSort = (sortBy, sortField) => {
+		setSortBy(sortBy);
+		setSortField(sortField);
+
+		let listUsersClone = _.cloneDeep(listUsers); // Clone array
+		listUsersClone = _.orderBy(listUsersClone, [sortField], [sortBy]); // Sort array
+		setListUsers(listUsersClone); // Update state listUsers
+		console.log(">>> check listUsersClone: ", listUsersClone);
+	};
+
+	// Check sort
+	console.log(">>> check sort: ", sortBy, sortField);
+
 	return (
 		<>
 			<div className="my-3 d-flex justify-content-between">
@@ -114,9 +131,37 @@ const TableUser = (props) => {
 			<Table striped bordered hover>
 				<thead>
 					<tr>
-						<th>ID</th>
+						<th>
+							<div className="d-flex justify-content-between">
+								<span>ID</span>
+								<span>
+									<i
+										onClick={() => handleSort("desc", "id")}
+										className="fa-solid fa-arrow-down-long"
+									></i>
+									<i
+										onClick={() => handleSort("asc", "id")}
+										className="fa-solid fa-arrow-up-long"
+									></i>
+								</span>
+							</div>
+						</th>
 						<th>Email</th>
-						<th>First Name</th>
+						<th>
+							<div className="d-flex justify-content-between">
+								<span>First Name</span>
+								<span>
+									<i
+										onClick={() => handleSort("desc", "first_name")}
+										className="fa-solid fa-arrow-down-long"
+									></i>
+									<i
+										onClick={() => handleSort("asc", "first_name")}
+										className="fa-solid fa-arrow-up-long"
+									></i>
+								</span>
+							</div>
+						</th>
 						<th>Last Name</th>
 					</tr>
 				</thead>
