@@ -5,9 +5,10 @@ import { fetchAllUser } from "../services/userService";
 import ReactPaginate from "react-paginate";
 import ModalAddNew from "./ModalAddNew";
 import ModalEdit from "./ModalEdit";
-
+import Papa from "papaparse";
 import _ from "lodash";
 import ModalDelete from "./ModalDelete";
+import { toast } from "react-toastify";
 
 const TableUser = (props) => {
 	// State list users
@@ -159,6 +160,58 @@ const TableUser = (props) => {
 		}
 	};
 
+	// Import data from CSV
+	const handleImportCSV = (event) => {
+		if (event.target && event.target.files && event.target.files[0]) {
+			let file = event.target.files[0];
+			// console.log(">>> check file upload: ", file);
+			if (file.type !== "text/csv") {
+				toast.error("Please upload a CSV file!");
+				event.target.value = ""; // Reset input file
+				return;
+			}
+
+			// Parse CSV file
+			Papa.parse(file, {
+				// header: true,
+				complete: function (results) {
+					let rawCSV = results.data;
+					if (rawCSV.length > 0) {
+						if (rawCSV[0] && rawCSV[0].length === 3) {
+							if (
+								rawCSV[0][0] !== "email" ||
+								rawCSV[0][1] !== "first_name" ||
+								rawCSV[0][2] !== "last_name"
+							) {
+								toast.error("Wrong format header CSV field!");
+							} else {
+								// console.log(rawCSV);
+
+								let result = [];
+								rawCSV.map((item, index) => {
+									if (index > 0 && item.length === 3) {
+										let obj = {};
+										obj.email = item[0];
+										obj.first_name = item[1];
+										obj.last_name = item[2];
+										result.push(obj);
+									}
+								});
+								setListUsers(result); // Set list users
+								console.log(">>> check result: ", result);
+							}
+						} else {
+							toast.error("Wrong format of CSV file!");
+						}
+					} else {
+						toast.error("Not found data on CSV file!");
+					}
+					console.log(">>> check results: ", results.data);
+				},
+			});
+		}
+	};
+
 	return (
 		<>
 			<div className="my-3 d-flex justify-content-between">
@@ -170,7 +223,13 @@ const TableUser = (props) => {
 						<i className="fa-solid fa-file-import"></i>
 						Import
 					</label>
-					<input type="file" id="import" className="mx-3" hidden />
+					<input
+						type="file"
+						id="import"
+						onChange={(event) => handleImportCSV(event)}
+						className="mx-3"
+						hidden
+					/>
 
 					<CSVLink
 						filename="user.csv"
