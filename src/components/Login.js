@@ -1,14 +1,26 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Container, Row, Col, Form, Button, InputGroup } from "react-bootstrap";
 import { loginApi } from "../services/userService";
 import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
+	const navigate = useNavigate();
+
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
 	const [showPassword, setShowPassword] = useState(false);
 
+	const [loading, setLoading] = useState(false);
+
 	const isFormFilled = email.trim() !== "" && password.trim() !== "";
+
+	useEffect(() => {
+		let token = localStorage.getItem("token");
+		if (token) {
+			navigate("/");
+		}
+	}, []);
 
 	const handleLogin = async (e) => {
 		e.preventDefault(); // Ngừng submit form
@@ -20,18 +32,23 @@ const Login = () => {
 
 		try {
 			// Call API login
+			setLoading(true);
 			let res = await loginApi(email, password);
 			console.log(">>> check login res: ", res);
 
 			if (res && res.token) {
 				localStorage.setItem("token", res.token);
 				toast.success("Login successful!");
+				navigate("/");
 			} else {
-				toast.error("Login failed. Please try again.");
+				if (res && res.status === 400) {
+					toast.error(res.data.error);
+				}
 			}
 		} catch (error) {
 			toast.error("An error occurred. Please try again!");
 		}
+		setLoading(false);
 	};
 
 	const customInputStyle = {
@@ -106,6 +123,7 @@ const Login = () => {
 								disabled={!isFormFilled}
 								style={!isFormFilled ? { ...customDisabledButtonStyle } : {}}
 							>
+								{loading && <i className="fa-solid fa-sync fa-spin mx-2"></i>}
 								Log In
 							</Button>
 
