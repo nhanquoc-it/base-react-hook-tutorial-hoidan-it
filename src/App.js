@@ -2,14 +2,19 @@ import Container from "react-bootstrap/Container";
 import "./App.scss";
 import Header from "./components/Header";
 import TableUser from "./components/TableUser";
-import { ToastContainer, Bounce } from 'react-toastify';
+import { ToastContainer, Bounce } from "react-toastify";
+import Home from "./components/Home";
+import { Routes, Route } from "react-router-dom";
 
 function App() {
 	return (
 		<div className="app-container">
 			<Header />
 			<Container>
-				<TableUser />
+				<Routes>
+					<Route path="/" element={<Home />} />
+					<Route path="/users" element={<TableUser />} />
+				</Routes>
 			</Container>
 
 			<ToastContainer
