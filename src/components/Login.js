@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import { Container, Row, Col, Form, Button, InputGroup } from "react-bootstrap";
+import { loginApi } from "../services/userService";
+import { toast } from "react-toastify";
 
 const Login = () => {
 	const [email, setEmail] = useState("");
@@ -7,6 +9,30 @@ const Login = () => {
 	const [showPassword, setShowPassword] = useState(false);
 
 	const isFormFilled = email.trim() !== "" && password.trim() !== "";
+
+	const handleLogin = async (e) => {
+		e.preventDefault(); // Ngừng submit form
+		// Kiểm tra xem email và password đã được nhập chưa
+		if (!email || !password) {
+			toast.error("Email/password is required!");
+			return;
+		}
+
+		try {
+			// Call API login
+			let res = await loginApi(email, password);
+			console.log(">>> check login res: ", res);
+
+			if (res && res.token) {
+				localStorage.setItem("token", res.token);
+				toast.success("Login successful!");
+			} else {
+				toast.error("Login failed. Please try again.");
+			}
+		} catch (error) {
+			toast.error("An error occurred. Please try again!");
+		}
+	};
 
 	const customInputStyle = {
 		color: "#333",
@@ -34,9 +60,11 @@ const Login = () => {
 							</p>
 						</div>
 
-						<Form>
+						<Form onSubmit={handleLogin}>
 							<Form.Group className="mb-3" controlId="formEmail">
-								<Form.Label>Email or Username</Form.Label>
+								<Form.Label>
+									Email or Username: <b>eve.holt@reqres.in</b>
+								</Form.Label>
 								<Form.Control
 									type="text"
 									value={email}
