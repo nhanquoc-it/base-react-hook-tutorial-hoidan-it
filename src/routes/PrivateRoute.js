@@ -1,12 +1,11 @@
 import React, { useContext } from "react";
-import { Routes, Route } from "react-router-dom";
 import { UserContext } from "../context/UserContext";
 import { Alert } from "react-bootstrap";
 
 const PrivateRoute = (props) => {
 	console.log("PrivateRoute props: ", props);
 
-	const { user, login } = useContext(UserContext);
+	const { user } = useContext(UserContext);
 
 	if (user && !user.auth) {
 		return (
