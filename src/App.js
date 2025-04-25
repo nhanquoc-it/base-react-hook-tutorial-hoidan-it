@@ -6,8 +6,20 @@ import { ToastContainer, Bounce } from "react-toastify";
 import Home from "./components/Home";
 import { Routes, Route } from "react-router-dom";
 import Login from "./components/Login";
+import { useContext, useEffect } from "react";
+import { UserContext } from "./context/UserContext";
 
 function App() {
+	const { user, login } = useContext(UserContext);
+	console.log(">>> check user: ", user);
+
+	// Check if user is logged in and set context state
+	useEffect(() => {
+		if (localStorage.getItem("token")) {
+			login(localStorage.getItem("email"), localStorage.getItem("token"));
+		}
+	}, []);
+
 	return (
 		<div className="app-container">
 			<Header />

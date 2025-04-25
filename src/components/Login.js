@@ -1,11 +1,13 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { Container, Row, Col, Form, Button, InputGroup } from "react-bootstrap";
 import { loginApi } from "../services/userService";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
+import { UserContext } from "../context/UserContext";
 
 const Login = () => {
 	const navigate = useNavigate();
+	const { login } = useContext(UserContext);
 
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
@@ -14,13 +16,6 @@ const Login = () => {
 	const [loading, setLoading] = useState(false);
 
 	const isFormFilled = email.trim() !== "" && password.trim() !== "";
-
-	useEffect(() => {
-		let token = localStorage.getItem("token");
-		if (token) {
-			navigate("/");
-		}
-	}, []);
 
 	const handleLogin = async (e) => {
 		e.preventDefault(); // Ngừng submit form
@@ -37,8 +32,8 @@ const Login = () => {
 			console.log(">>> check login res: ", res);
 
 			if (res && res.token) {
-				localStorage.setItem("token", res.token);
 				toast.success("Login successful!");
+				login(email, res.token);
 				navigate("/");
 			} else {
 				if (res && res.status === 400) {
@@ -49,6 +44,10 @@ const Login = () => {
 			toast.error("An error occurred. Please try again!");
 		}
 		setLoading(false);
+	};
+
+	const handleGoBack = () => {
+		navigate("/");
 	};
 
 	const customInputStyle = {
@@ -132,7 +131,7 @@ const Login = () => {
 								style={{ cursor: "pointer" }}
 							>
 								<i className="fas fa-chevron-left mx-2"></i>
-								Go Back
+								<span onClick={() => handleGoBack()}>Go Back</span>
 							</div>
 						</Form>
 					</Col>
