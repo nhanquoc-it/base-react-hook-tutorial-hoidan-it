@@ -1,19 +1,21 @@
-import React, { useEffect, useState, useContext } from "react";
+import React, { useEffect, useState } from "react";
 import { Container, Row, Col, Form, Button, InputGroup } from "react-bootstrap";
-import { loginApi } from "../services/userService";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
-import { UserContext } from "../context/UserContext";
+import { handleLoginRedux } from "../redux/actions/userAction";
+import { useDispatch, useSelector } from "react-redux";
 
 const Login = () => {
 	const navigate = useNavigate();
-	const { login } = useContext(UserContext);
+
+	// Apply Redux
+	const dispatch = useDispatch();
+	const isLoading = useSelector((state) => state.user.isLoading);
+	const account = useSelector((state) => state.user.account);
 
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
 	const [showPassword, setShowPassword] = useState(false);
-
-	const [loading, setLoading] = useState(false);
 
 	const isFormFilled = email.trim() !== "" && password.trim() !== "";
 
@@ -26,24 +28,12 @@ const Login = () => {
 		}
 
 		try {
-			// Call API login
-			setLoading(true);
-			let res = await loginApi(email.trim(), password);
-			console.log(">>> check login res: ", res);
-
-			if (res && res.token) {
-				toast.success("Login successful!");
-				login(email, res.token);
-				navigate("/");
-			} else {
-				if (res && res.status === 400) {
-					toast.error(res.data.error);
-				}
-			}
+			// Call API login using Redux
+			// Dispatch the login action redux
+			dispatch(handleLoginRedux(email, password));
 		} catch (error) {
 			toast.error("An error occurred. Please try again!");
 		}
-		setLoading(false);
 	};
 
 	const handleGoBack = () => {
@@ -68,6 +58,12 @@ const Login = () => {
 		cursor: "not-allowed",
 		pointerEvents: "auto",
 	};
+
+	useEffect(() => {
+		if (account && account.auth === true) {
+			navigate("/");
+		}
+	}, [account]);
 
 	return (
 		<>
@@ -129,7 +125,7 @@ const Login = () => {
 								disabled={!isFormFilled}
 								style={!isFormFilled ? { ...customDisabledButtonStyle } : {}}
 							>
-								{loading && <i className="fa-solid fa-sync fa-spin mx-2"></i>}
+								{isLoading && <i className="fa-solid fa-sync fa-spin mx-2"></i>}
 								Log In
 							</Button>
 
