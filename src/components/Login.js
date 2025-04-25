@@ -28,7 +28,7 @@ const Login = () => {
 		try {
 			// Call API login
 			setLoading(true);
-			let res = await loginApi(email, password);
+			let res = await loginApi(email.trim(), password);
 			console.log(">>> check login res: ", res);
 
 			if (res && res.token) {
@@ -48,6 +48,12 @@ const Login = () => {
 
 	const handleGoBack = () => {
 		navigate("/");
+	};
+
+	const handlePressEnter = (e) => {
+		if (e && e.key === "Enter") {
+			handleLogin(e);
+		}
 	};
 
 	const customInputStyle = {
@@ -98,6 +104,7 @@ const Login = () => {
 										type={showPassword ? "text" : "password"}
 										value={password}
 										onChange={(e) => setPassword(e.target.value)}
+										onKeyDown={(e) => handlePressEnter(e)}
 										placeholder="Enter password"
 										style={customInputStyle}
 									/>

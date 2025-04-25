@@ -214,9 +214,9 @@ const TableUser = (props) => {
 
 	return (
 		<>
-			<div className="my-3 d-flex justify-content-between">
+			<div className="my-3 d-sm-flex justify-content-between">
 				<span>
-					<strong>List Users:</strong>
+					<strong className="col-12">List Users:</strong>
 				</span>
 				<div>
 					<label className="btn btn-warning" htmlFor="import">
@@ -243,12 +243,12 @@ const TableUser = (props) => {
 					</CSVLink>
 					<button onClick={openModal} className="btn btn-success">
 						<i className="fa-solid fa-circle-plus"></i>
-						Add New User
+						Add User
 					</button>
 				</div>
 			</div>
 
-			<div className="col-6 my-3">
+			<div className="col-12 col-sm-6 my-3">
 				<input
 					className="form-control"
 					placeholder="Search user by email....."
@@ -258,73 +258,74 @@ const TableUser = (props) => {
 				/>
 			</div>
 
-			<Table striped bordered hover>
-				<thead>
-					<tr>
-						<th>
-							<div className="d-flex justify-content-between">
-								<span>ID</span>
-								<span>
-									<i
-										onClick={() => handleSort("desc", "id")}
-										className="fa-solid fa-arrow-down-long"
-									></i>
-									<i
-										onClick={() => handleSort("asc", "id")}
-										className="fa-solid fa-arrow-up-long"
-									></i>
-								</span>
-							</div>
-						</th>
-						<th>Email</th>
-						<th>
-							<div className="d-flex justify-content-between">
-								<span>First Name</span>
-								<span>
-									<i
-										onClick={() => handleSort("desc", "first_name")}
-										className="fa-solid fa-arrow-down-long"
-									></i>
-									<i
-										onClick={() => handleSort("asc", "first_name")}
-										className="fa-solid fa-arrow-up-long"
-									></i>
-								</span>
-							</div>
-						</th>
-						<th>Last Name</th>
-					</tr>
-				</thead>
-				<tbody>
-					{listUsers &&
-						listUsers.length > 0 &&
-						listUsers.map((item, index) => {
-							return (
-								<tr key={`user-${index}`}>
-									<td>{item.id}</td>
-									<td>{item.email}</td>
-									<td>{item.first_name}</td>
-									<td>{item.last_name}</td>
-									<td>
-										<button
-											className="btn btn-warning mx-3"
-											onClick={() => handleEditUser(item)}
-										>
-											Edit
-										</button>
-										<button
-											onClick={() => handleDeleteUser(item)}
-											className="btn btn-danger"
-										>
-											Delete
-										</button>
-									</td>
-								</tr>
-							);
-						})}
-				</tbody>
-			</Table>
-
+			<div className="overflow-auto">
+				<Table striped bordered hover>
+					<thead>
+						<tr>
+							<th>
+								<div className="d-flex justify-content-between">
+									<span>ID</span>
+									<span>
+										<i
+											onClick={() => handleSort("desc", "id")}
+											className="fa-solid fa-arrow-down-long"
+										></i>
+										<i
+											onClick={() => handleSort("asc", "id")}
+											className="fa-solid fa-arrow-up-long"
+										></i>
+									</span>
+								</div>
+							</th>
+							<th>Email</th>
+							<th>
+								<div className="d-flex justify-content-between">
+									<span>First Name</span>
+									<span>
+										<i
+											onClick={() => handleSort("desc", "first_name")}
+											className="fa-solid fa-arrow-down-long"
+										></i>
+										<i
+											onClick={() => handleSort("asc", "first_name")}
+											className="fa-solid fa-arrow-up-long"
+										></i>
+									</span>
+								</div>
+							</th>
+							<th>Last Name</th>
+						</tr>
+					</thead>
+					<tbody>
+						{listUsers &&
+							listUsers.length > 0 &&
+							listUsers.map((item, index) => {
+								return (
+									<tr key={`user-${index}`}>
+										<td>{item.id}</td>
+										<td>{item.email}</td>
+										<td>{item.first_name}</td>
+										<td>{item.last_name}</td>
+										<td>
+											<button
+												className="btn btn-warning mx-3"
+												onClick={() => handleEditUser(item)}
+											>
+												Edit
+											</button>
+											<button
+												onClick={() => handleDeleteUser(item)}
+												className="btn btn-danger"
+											>
+												Delete
+											</button>
+										</td>
+									</tr>
+								);
+							})}
+					</tbody>
+				</Table>
+			</div>
 			{/* Paginate */}
 			<ReactPaginate
 				nextLabel="next >"
