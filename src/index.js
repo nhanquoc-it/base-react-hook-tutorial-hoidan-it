@@ -8,14 +8,20 @@ import "@fortawesome/fontawesome-free/css/all.min.css";
 import { BrowserRouter } from "react-router-dom";
 import { UserProvider } from "./context/UserContext";
 
+// REDUX
+import { Provider } from "react-redux";
+import store from "./redux/store";
+
 ReactDOM.render(
-	<React.StrictMode>
-		<UserProvider>
-			<BrowserRouter>
-				<App />
-			</BrowserRouter>
-		</UserProvider>
-	</React.StrictMode>,
+	<Provider store={store}>
+		<React.StrictMode>
+			<UserProvider>
+				<BrowserRouter>
+					<App />
+				</BrowserRouter>
+			</UserProvider>
+		</React.StrictMode>
+	</Provider>,
 	document.getElementById("root")
 );
 

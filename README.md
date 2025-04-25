@@ -32,8 +32,9 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 11. papaparse (export csv)
 12. react-router-dom
 13. react-error-overlay (host reloading)
+14. react-redux, redux, redux-thunk, redux-devtools-extension
 
-- Command Install : `npm install --save-exact react-bootstrap@2.2.2 bootstrap@5.1.3 sass@1.49.10 axios@0.26.1 react-paginate@8.1.2 react-toastify@8.2.0 lodash@4.17.21 @fortawesome/fontawesome-free@6.1.1 react-csv@2.2.2 papaparse@5.3.2 react-router-dom@6.3.0 react-error-overlay@6.0.9`
+- Command Install : `npm install --save-exact react-bootstrap@2.2.2 bootstrap@5.1.3 sass@1.49.10 axios@0.26.1 react-paginate@8.1.2 react-toastify@8.2.0 lodash@4.17.21 @fortawesome/fontawesome-free@6.1.1 react-csv@2.2.2 papaparse@5.3.2 react-router-dom@6.3.0 react-error-overlay@6.0.9 react-redux@8.0.1 redux@4.2.0 redux-thunk@2.4.1 redux-devtools-extension@2.13.9`
 
 # Link Resources :
 
